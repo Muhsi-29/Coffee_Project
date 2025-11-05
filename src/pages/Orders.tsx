@@ -13,13 +13,13 @@ const Orders = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "processing":
+      case "ordered":
         return <Package className="h-5 w-5" />;
-      case "confirmed":
+      case "preparing":
         return <CheckCircle className="h-5 w-5" />;
-      case "shipped":
+      case "ready":
         return <Truck className="h-5 w-5" />;
-      case "delivered":
+      case "completed":
         return <Home className="h-5 w-5" />;
       default:
         return <Package className="h-5 w-5" />;
@@ -28,14 +28,14 @@ const Orders = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "processing":
+      case "ordered":
         return "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400";
-      case "confirmed":
+      case "preparing":
         return "bg-blue-500/20 text-blue-700 dark:text-blue-400";
-      case "shipped":
-        return "bg-purple-500/20 text-purple-700 dark:text-purple-400";
-      case "delivered":
+      case "ready":
         return "bg-green-500/20 text-green-700 dark:text-green-400";
+      case "completed":
+        return "bg-purple-500/20 text-purple-700 dark:text-purple-400";
       default:
         return "bg-gray-500/20 text-gray-700 dark:text-gray-400";
     }
@@ -114,15 +114,16 @@ const Orders = () => {
                   {/* Order Progress */}
                   <div className="mb-6">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm font-medium">Order Progress</span>
+                      <span className="text-sm font-medium">Order Status</span>
                       <span className="text-sm text-muted-foreground">
-                        Est. delivery: {new Date(order.estimatedDelivery).toLocaleDateString()}
+                        Est. ready: {new Date(order.estimatedReady).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                     <div className="relative">
                       <div className="flex justify-between mb-2">
-                        {["processing", "confirmed", "shipped", "delivered"].map((status, idx) => {
-                          const isActive = ["processing", "confirmed", "shipped", "delivered"].indexOf(order.status) >= idx;
+                        {["ordered", "preparing", "ready", "completed"].map((status, idx) => {
+                          const statusLabels = { ordered: "Ordered", preparing: "Preparing", ready: "Ready", completed: "Picked Up" };
+                          const isActive = ["ordered", "preparing", "ready", "completed"].indexOf(order.status) >= idx;
                           return (
                             <div key={status} className="flex flex-col items-center flex-1">
                               <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
@@ -130,8 +131,8 @@ const Orders = () => {
                               }`}>
                                 {getStatusIcon(status)}
                               </div>
-                              <span className={`text-xs mt-2 capitalize ${isActive ? "text-foreground font-semibold" : "text-muted-foreground"}`}>
-                                {status}
+                              <span className={`text-xs mt-2 capitalize text-center ${isActive ? "text-foreground font-semibold" : "text-muted-foreground"}`}>
+                                {statusLabels[status as keyof typeof statusLabels]}
                               </span>
                             </div>
                           );
@@ -141,7 +142,7 @@ const Orders = () => {
                         <div 
                           className="h-full bg-accent transition-all duration-1000" 
                           style={{ 
-                            width: `${(["processing", "confirmed", "shipped", "delivered"].indexOf(order.status) / 3) * 100}%` 
+                            width: `${(["ordered", "preparing", "ready", "completed"].indexOf(order.status) / 3) * 100}%` 
                           }}
                         />
                       </div>

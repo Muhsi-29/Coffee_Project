@@ -37,39 +37,47 @@ export const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <a 
-              href="/#home" 
+          <div className="hidden md:flex items-center gap-6">
+            <button 
+              onClick={() => navigate("/")}
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
             >
               Home
-            </a>
-            <a 
-              href="/#products" 
+            </button>
+            <button 
+              onClick={() => navigate("/menu")}
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
             >
-              Products
-            </a>
-            <a 
-              href="/#about" 
+              Menu
+            </button>
+            <button 
+              onClick={() => navigate("/about")}
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
             >
               About
-            </a>
-            <a 
-              href="/#contact" 
+            </button>
+            <button 
+              onClick={() => navigate("/gallery")}
+              className={`font-medium transition-colors hover:text-accent ${
+                isScrolled ? "text-foreground" : "text-primary-foreground"
+              }`}
+            >
+              Gallery
+            </button>
+            <button 
+              onClick={() => navigate("/contact")}
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
             >
               Contact
-            </a>
+            </button>
             <button 
               onClick={() => navigate("/orders")}
               className={`font-medium transition-colors hover:text-accent flex items-center gap-2 ${

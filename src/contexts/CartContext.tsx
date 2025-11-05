@@ -17,9 +17,9 @@ export interface Order {
   id: string;
   items: CartItem[];
   total: number;
-  status: "processing" | "confirmed" | "shipped" | "delivered";
+  status: "ordered" | "preparing" | "ready" | "completed";
   date: string;
-  estimatedDelivery: string;
+  estimatedReady: string;
 }
 
 interface CartContextType {
@@ -114,9 +114,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: `ORD-${Date.now()}`,
       items: [...cartItems],
       total: getTotalPrice(),
-      status: "processing",
+      status: "ordered",
       date: new Date().toISOString(),
-      estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+      estimatedReady: new Date(Date.now() + 15 * 60 * 1000).toISOString(), // 15 minutes
     };
 
     setOrders((prev) => [newOrder, ...prev]);
@@ -127,21 +127,29 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       description: `Order ${newOrder.id} is being processed`,
     });
 
-    // Simulate order status updates
+    // Simulate cafe order status updates
     setTimeout(() => {
       setOrders((prev) =>
         prev.map((order) =>
-          order.id === newOrder.id ? { ...order, status: "confirmed" } : order
+          order.id === newOrder.id ? { ...order, status: "preparing" } : order
         )
       );
+      toast({
+        title: "Order Update",
+        description: "Your order is now being prepared!",
+      });
     }, 5000);
 
     setTimeout(() => {
       setOrders((prev) =>
         prev.map((order) =>
-          order.id === newOrder.id ? { ...order, status: "shipped" } : order
+          order.id === newOrder.id ? { ...order, status: "ready" } : order
         )
       );
+      toast({
+        title: "Order Ready! ☕",
+        description: "Your order is ready for pickup!",
+      });
     }, 10000);
   };
 

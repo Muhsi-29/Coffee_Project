@@ -3,32 +3,36 @@ import { Button } from "@/components/ui/button";
 import espressoImage from "@/assets/product-espresso.jpg";
 import brewImage from "@/assets/product-brew.jpg";
 import latteImage from "@/assets/product-latte.jpg";
+import { useCart } from "@/contexts/CartContext";
+import { ShoppingCart } from "lucide-react";
 
 const products = [
   {
     id: 1,
     name: "Dark Roast Espresso",
     description: "Rich, bold, and full-bodied with notes of dark chocolate",
-    price: "$18.99",
+    price: 18.99,
     image: espressoImage,
   },
   {
     id: 2,
     name: "Pour Over Blend",
     description: "Smooth and balanced with hints of caramel and citrus",
-    price: "$16.99",
+    price: 16.99,
     image: brewImage,
   },
   {
     id: 3,
     name: "Signature Latte",
     description: "Creamy and indulgent with our signature house blend",
-    price: "$14.99",
+    price: 14.99,
     image: latteImage,
   },
 ];
 
 export const Products = () => {
+  const { addToCart } = useCart();
+
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -65,12 +69,14 @@ export const Products = () => {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-accent">
-                    {product.price}
+                    ${product.price.toFixed(2)}
                   </span>
                   <Button 
                     variant="secondary"
-                    className="transition-all duration-300 hover:scale-105"
+                    className="transition-all duration-300 hover:scale-105 group"
+                    onClick={() => addToCart(product)}
                   >
+                    <ShoppingCart className="h-4 w-4 mr-2 group-hover:animate-bounce" />
                     Add to Cart
                   </Button>
                 </div>

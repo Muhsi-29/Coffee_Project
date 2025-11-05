@@ -33,6 +33,7 @@ export const Hero = () => {
           <Button 
             size="lg" 
             variant="secondary"
+            onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
             className="group text-lg px-8 py-6 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
           >
             Explore Collection
@@ -41,6 +42,7 @@ export const Hero = () => {
           <Button 
             size="lg" 
             variant="outline"
+            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             className="text-lg px-8 py-6 bg-transparent border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-300"
           >
             Our Story

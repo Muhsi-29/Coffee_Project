@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Coffee, Menu, ShoppingCart } from "lucide-react";
+import { Coffee, Menu, ShoppingCart, Package } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useCart } from "@/contexts/CartContext";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { getTotalItems } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,7 +39,7 @@ export const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <a 
-              href="#home" 
+              href="/#home" 
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
@@ -43,7 +47,7 @@ export const Navbar = () => {
               Home
             </a>
             <a 
-              href="#products" 
+              href="/#products" 
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
@@ -51,7 +55,7 @@ export const Navbar = () => {
               Products
             </a>
             <a 
-              href="#about" 
+              href="/#about" 
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
@@ -59,13 +63,22 @@ export const Navbar = () => {
               About
             </a>
             <a 
-              href="#contact" 
+              href="/#contact" 
               className={`font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               }`}
             >
               Contact
             </a>
+            <button 
+              onClick={() => navigate("/orders")}
+              className={`font-medium transition-colors hover:text-accent flex items-center gap-2 ${
+                isScrolled ? "text-foreground" : "text-primary-foreground"
+              }`}
+            >
+              <Package className="h-4 w-4" />
+              Orders
+            </button>
           </div>
 
           {/* Actions */}
@@ -73,12 +86,15 @@ export const Navbar = () => {
             <Button 
               variant={isScrolled ? "ghost" : "outline"}
               size="icon"
-              className={`relative ${!isScrolled && "text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10"}`}
+              onClick={() => navigate("/cart")}
+              className={`relative transition-all duration-300 hover:scale-110 ${!isScrolled && "text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10"}`}
             >
               <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-[10px] font-bold text-accent-foreground flex items-center justify-center">
-                0
-              </span>
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-accent text-[10px] font-bold text-accent-foreground flex items-center justify-center animate-bounce">
+                  {getTotalItems()}
+                </span>
+              )}
             </Button>
             <Button 
               variant="ghost" 

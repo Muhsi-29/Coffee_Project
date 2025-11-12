@@ -1,16 +1,22 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useCart } from "@/contexts/CartContext";
+import { useLoyalty } from "@/contexts/LoyaltyContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Minus, Plus, Trash2, ShoppingBag, Trophy } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, placeOrder } = useCart();
+  const { addPoints, getDiscount } = useLoyalty();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
+    const total = getTotalPrice();
+    const pointsEarned = Math.floor(total * 10);
+    addPoints(pointsEarned);
     placeOrder();
     navigate("/orders");
   };
@@ -114,13 +120,28 @@ const Cart = () => {
                       <span className="font-semibold">${getTotalPrice().toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Shipping</span>
-                      <span className="font-semibold">Free</span>
+                      <span className="text-muted-foreground">Member Discount</span>
+                      <span className="font-semibold text-green-600">-{getDiscount()}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Discounted Total</span>
+                      <span className="font-semibold">
+                        ${(getTotalPrice() * (1 - getDiscount() / 100)).toFixed(2)}
+                      </span>
                     </div>
                     <div className="border-t pt-4">
                       <div className="flex justify-between text-xl">
                         <span className="font-bold">Total</span>
-                        <span className="font-bold text-accent">${getTotalPrice().toFixed(2)}</span>
+                        <span className="font-bold text-accent">
+                          ${(getTotalPrice() * (1 - getDiscount() / 100)).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-primary/10 rounded-lg p-3 flex items-center gap-2">
+                      <Trophy className="h-5 w-5 text-primary" />
+                      <div className="text-sm">
+                        <p className="font-semibold">Earn {Math.floor(getTotalPrice() * 10)} points</p>
+                        <p className="text-muted-foreground text-xs">with this purchase!</p>
                       </div>
                     </div>
                   </div>

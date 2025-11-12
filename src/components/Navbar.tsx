@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Coffee, Menu, ShoppingCart, Package } from "lucide-react";
+import { Coffee, Menu, ShoppingCart, Package, Trophy, CalendarCheck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useLoyalty } from "@/contexts/LoyaltyContext";
 import { useNavigate } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { getTotalItems } = useCart();
+  const { points, tier } = useLoyalty();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,6 +89,27 @@ export const Navbar = () => {
             >
               <Package className="h-4 w-4" />
               Orders
+            </button>
+            <button 
+              onClick={() => navigate("/reservations")}
+              className={`font-medium transition-colors hover:text-accent flex items-center gap-2 ${
+                isScrolled ? "text-foreground" : "text-primary-foreground"
+              }`}
+            >
+              <CalendarCheck className="h-4 w-4" />
+              Reservations
+            </button>
+            <button 
+              onClick={() => navigate("/rewards")}
+              className={`font-medium transition-colors hover:text-accent flex items-center gap-2 relative ${
+                isScrolled ? "text-foreground" : "text-primary-foreground"
+              }`}
+            >
+              <Trophy className="h-4 w-4" />
+              Rewards
+              <Badge variant="secondary" className="text-xs px-1.5 py-0">
+                {points}
+              </Badge>
             </button>
           </div>
 

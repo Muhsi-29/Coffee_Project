@@ -105,7 +105,7 @@ const Orders = () => {
                           <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                         </div>
                         <span className="font-bold text-accent">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          ₹{item.price * item.quantity}
                         </span>
                       </div>
                     ))}

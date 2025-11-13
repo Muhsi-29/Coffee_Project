@@ -90,7 +90,7 @@ const Cart = () => {
                           </div>
                           <div className="flex items-center justify-between sm:justify-end gap-4">
                             <span className="text-2xl font-bold text-accent">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              ₹{item.price * item.quantity}
                             </span>
                             <Button
                               size="icon"
@@ -117,7 +117,7 @@ const Cart = () => {
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Subtotal</span>
-                      <span className="font-semibold">${getTotalPrice().toFixed(2)}</span>
+                      <span className="font-semibold">₹{getTotalPrice()}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Member Discount</span>
@@ -126,14 +126,14 @@ const Cart = () => {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Discounted Total</span>
                       <span className="font-semibold">
-                        ${(getTotalPrice() * (1 - getDiscount() / 100)).toFixed(2)}
+                        ₹{Math.round(getTotalPrice() * (1 - getDiscount() / 100))}
                       </span>
                     </div>
                     <div className="border-t pt-4">
                       <div className="flex justify-between text-xl">
                         <span className="font-bold">Total</span>
                         <span className="font-bold text-accent">
-                          ${(getTotalPrice() * (1 - getDiscount() / 100)).toFixed(2)}
+                          ₹{Math.round(getTotalPrice() * (1 - getDiscount() / 100))}
                         </span>
                       </div>
                     </div>

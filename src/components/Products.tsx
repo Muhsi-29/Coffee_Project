@@ -11,21 +11,21 @@ const products = [
     id: 1,
     name: "Dark Roast Espresso",
     description: "Rich, bold, and full-bodied with notes of dark chocolate",
-    price: 18.99,
+    price: 1599,
     image: espressoImage,
   },
   {
     id: 2,
     name: "Pour Over Blend",
     description: "Smooth and balanced with hints of caramel and citrus",
-    price: 16.99,
+    price: 1399,
     image: brewImage,
   },
   {
     id: 3,
     name: "Signature Latte",
     description: "Creamy and indulgent with our signature house blend",
-    price: 14.99,
+    price: 1249,
     image: latteImage,
   },
 ];
@@ -69,7 +69,7 @@ export const Products = () => {
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-accent">
-                    ${product.price.toFixed(2)}
+                    ₹{product.price}
                   </span>
                   <Button 
                     variant="secondary"
